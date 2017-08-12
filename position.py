@@ -50,17 +50,15 @@ def main():
     cap = cv2.VideoCapture(cam)
     for i in xrange(20):
         _, img = cap.read()
+        print img
     time = 0
-    input('1')
     while True:
         time += 1
         print "time:%s" % time
-        input('2')
         # try:
         _, img = cap.read()
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         gray = mirrored(gray)
-        input('3')
         leds = locate(gray, show=False)
         if len(leds):
             if len(leds) == 1:
@@ -79,7 +77,6 @@ def main():
                 leds_ = points[::]
 
         # print leds_
-        input('4')
         x, y = calculate(leds, leds_)
 
         display('x: % .1f\ny: % .1f' % (x, y))
