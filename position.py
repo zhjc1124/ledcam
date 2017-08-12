@@ -3,13 +3,17 @@
 
 import cv2
 import numpy as np
-from locate import locate
+from locate import locate_ as lc
 
 import socket
 import time
 import os
 
-from lcd import display
+if socket.gethostname() == "raspberrypi":
+    from lcd import display
+else:
+    def display(x):
+        print x
 cam = 0
 points = ((0, 20), (0, 0), (0, -20))
 
@@ -50,7 +54,7 @@ def main():
         img = cv2.imread("img.jpg")
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         gray = mirrored(gray)
-        leds = locate(gray, show=False)
+        leds = lc(gray)
         if len(leds):
             if len(leds) == 1:
                 led = leds[0]

@@ -19,7 +19,7 @@ def locate(gray, show=True):
                 # print (x_, y_), (x_ + m, y_ + n), gray[x_][y_], gray[x_ + m][y + n]
                 if flag[x_ + m][y_ + n]:
                     pass
-                elif abs(int(gray[x_][y_]) - int(gray[x_ + m][y_ + n])) < 5 and gray[x_ + m][y_ + n] > 230:
+                elif abs(int(gray[x_][y_]) - int(gray[x_ + m][y_ + n])) < 10 and gray[x_ + m][y_ + n] > 220:
                     flag[x_ + m][y_ + n] = value
                     classed[int(value) - 1].append((x_ + m, y_ + n))
                     check_point(x_ + m, y_ + n, value)
@@ -63,11 +63,30 @@ def locate(gray, show=True):
         cv2.imshow("result", result)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
-    input('1')
+    return leds
+
+
+def locate_(gray):
+    horizontal = line_sort(gray)
+    if len(horizontal):
+        rho = horizontal[0]
+        theta = horizontal[1]
+        pt1 = (int(rho / np.sin(theta)), 0)
+        # 该直线与最后一列的交点
+        pt2 = (int((rho - width * np.cos(theta)) / np.sin(theta)), width)
+        h_border = min(pt1[0], pt2[0]) - 16
+        if h_border > height/2:
+            for x in xrange(h_border, height):
+                for y in xrange(width):
+                    gray[x][y] = 0
+    cv2.imshow("cc", gray)
+    circles = cv2.HoughCircles(gray, cv2.cv.CV_HOUGH_GRADIENT, 1, 100, param1=100, param2=15, minRadius=0, maxRadius=20)
+    leds = [i[1::-1] for i in circles[0]]
     return leds
 
 if __name__ == "__main__":
     gray = cv2.imread('gray.jpg', 0)
-    print locate(gray)
+    # print locate(gray)
+    print locate_(gray)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
