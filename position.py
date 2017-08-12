@@ -10,9 +10,7 @@ import time
 import os
 
 if socket.gethostname() == 'raspberrypi':
-    from lcd import display
-    files = os.listdir('/dev')
-    cam = [f for f in files if f.startswith('video')][0][-1]
+    cam = 0
     print 'cam:%s' % cam
 
 else:
