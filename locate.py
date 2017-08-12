@@ -26,7 +26,9 @@ def locate(gray, show=True):
             except IndexError:
                 pass
     classed = []
+    input('1')
     horizontal = line_sort(gray)
+    input('1')
     if len(horizontal):
         rho = horizontal[0]
         theta = horizontal[1]
@@ -38,8 +40,9 @@ def locate(gray, show=True):
             for x in xrange(h_border, height):
                 for y in xrange(width):
                     gray[x][y] = 0
-
+    input('1')
     flag = np.zeros([height, width], dtype=np.int)
+    input('1')
     for x in xrange(height):
         for y in xrange(width):
             if flag[x][y] == 0:
@@ -49,6 +52,7 @@ def locate(gray, show=True):
                     check_point(x, y, len(classed))
             else:
                 check_point(x, y, flag[x][y])
+    input('1')
     print len(classed), [len(i) for i in classed]
     classed = [i for i in classed if len(i) > 20 and min(np.array(i).var(axis=0)) < 100]
     if not classed:
@@ -64,7 +68,7 @@ def locate(gray, show=True):
         cv2.imshow("result", result)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
-
+    input('1')
     return leds
 
 if __name__ == "__main__":

@@ -47,15 +47,10 @@ def main():
         print "time:%s" % times
         # try:
         os.popen('fswebcam -d /dev/video0 -r 640x480 --no-banner --no-timestamp ./img.jpg > ./info')
-        input('1')
         img = cv2.imread("img.jpg")
-        input('2')
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        input('3')
         gray = mirrored(gray)
-        input('4')
         leds = locate(gray, show=False)
-        input('5')
         if len(leds):
             if len(leds) == 1:
                 led = leds[0]
