@@ -9,6 +9,10 @@ import socket
 
 if socket.gethostname() == 'raspberrypi':
     from lcd import display
+    import os
+    files = os.listdir('/dev')
+    cam = [f for f in files if f.startswith('video')][0][-1]
+
     cam = 0
 else:
     def display(x):
