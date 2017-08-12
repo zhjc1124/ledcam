@@ -82,7 +82,7 @@ def main():
 
                 print leds_
                 x, y = calculate(leds, leds_)
-                info = 'x: % .1f, y: % .1f\n' % (x, y)
+                info = 'x:%.1f,y:%.1f\n' % (x, y)
                 if x > 0:
                     info += 'Right'
                 else:
