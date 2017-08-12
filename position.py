@@ -9,15 +9,8 @@ import socket
 import time
 import os
 
-if socket.gethostname() == 'raspberrypi':
-    from lcd import display
-    cam = 0
-    print 'cam:%s' % cam
-
-else:
-    def display(x):
-        print x
-    cam = 0
+from lcd import display
+cam = 0
 points = ((0, 20), (0, 0), (0, -20))
 
 height = 480
