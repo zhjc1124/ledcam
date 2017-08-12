@@ -19,16 +19,14 @@ def locate(gray, show=True):
                 # print (x_, y_), (x_ + m, y_ + n), gray[x_][y_], gray[x_ + m][y + n]
                 if flag[x_ + m][y_ + n]:
                     pass
-                elif abs(int(gray[x_][y_]) - int(gray[x_ + m][y_ + n])) < 10 and gray[x_ + m][y_ + n] > 220:
+                elif abs(int(gray[x_][y_]) - int(gray[x_ + m][y_ + n])) < 10 and gray[x_ + m][y_ + n] > 230:
                     flag[x_ + m][y_ + n] = value
                     classed[int(value) - 1].append((x_ + m, y_ + n))
                     check_point(x_ + m, y_ + n, value)
             except IndexError:
                 pass
     classed = []
-    input('1')
     horizontal = line_sort(gray)
-    input('1')
     if len(horizontal):
         rho = horizontal[0]
         theta = horizontal[1]
@@ -40,9 +38,7 @@ def locate(gray, show=True):
             for x in xrange(h_border, height):
                 for y in xrange(width):
                     gray[x][y] = 0
-    input('1')
     flag = np.zeros([height, width], dtype=np.int)
-    input('1')
     for x in xrange(height):
         for y in xrange(width):
             if flag[x][y] == 0:
@@ -52,7 +48,6 @@ def locate(gray, show=True):
                     check_point(x, y, len(classed))
             else:
                 check_point(x, y, flag[x][y])
-    input('1')
     print len(classed), [len(i) for i in classed]
     classed = [i for i in classed if len(i) > 20 and min(np.array(i).var(axis=0)) < 100]
     if not classed:
