@@ -81,7 +81,6 @@ def locate_(gray):
                     gray[x][y] = 0
     # cv2.imshow("cc", gray)
     circles = cv2.HoughCircles(gray, cv2.cv.CV_HOUGH_GRADIENT, 1, 120, param1=30, param2=15, minRadius=1, maxRadius=13)
-    print circles
     leds = [i[1::-1] for i in circles[0]]
     return leds
 

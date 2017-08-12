@@ -65,6 +65,7 @@ def main():
 
             leds = lc(gray)
             leds.sort(key=lambda x: x[1])
+            print leds
             if len(leds):
                 if len(leds) == 1:
                     led = leds[0]
