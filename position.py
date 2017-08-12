@@ -64,7 +64,7 @@ def main():
             cv2.imwrite("gray.jpg", gray)
 
             leds = lc(gray)
-
+            leds.sort(key=lambda x: x[1])
             if len(leds):
                 if len(leds) == 1:
                     led = leds[0]
