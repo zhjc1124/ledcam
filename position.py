@@ -48,6 +48,8 @@ def mirrored(gray):
 
 def main():
     cap = cv2.VideoCapture(cam)
+    cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, width)
+    cap.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, height)
     for i in xrange(20):
         _, img = cap.read()
         print img
