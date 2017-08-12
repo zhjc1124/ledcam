@@ -3,17 +3,14 @@
 import cv2
 import numpy as np
 # 去掉废的10张
-cap = cv2.VideoCapture(0)
-cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 1280)
-cap.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 960)
+cap = cv2.VideoCapture(2)
+height = 480
+width = 640
+
 for i in xrange(10):
     ret, frame = cap.read()
 
-height = 480
-width = 640
 d = 0.0875
-
-time = 0
 
 
 def draw_line(img, lines):
@@ -56,16 +53,15 @@ while True:
 
     # img = cv2.GaussianBlur(gray, (3, 3), 0)
     # edges = cv2.Canny(img, 50, 150, apertureSize=3)
-    # lines = cv2.HoughLines(edges, 1, np.pi / 180, 118)  # 这里对最后一个参数使用了经验型的值
+    # lines = cv2.HougheLines(edges, 1, np.pi / 180, 118)  # 这里对最后一个参数使用了经验型的值
     # lines = lines[0]
     # print lines
 
     # print gray[gray == 255]
     # cv2.imshow("gray", gray)
-    draw_line(gray, [[240, np.pi/2], [320, 0]])
+    draw_line(gray, [[height/2, np.pi/2], [width/2, 0]])
     if cv2.waitKey(1) & 0xFF == ord('q'):
-        time += 1
-        cv2.imwrite("gray%s.jpg" % time, gray)
+        cv2.imwrite("gray.jpg", gray)
         break
 # cv2.imwrite("img.jpg", img)
 

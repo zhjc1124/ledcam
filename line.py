@@ -6,37 +6,45 @@ height = 480
 width = 640
 
 
-def line_sort(img, show=True):
+def line_sort(img):
     img = cv2.GaussianBlur(img, (3, 3), 0)
     edges = cv2.Canny(img, 50, 150, apertureSize=3)
     lines = cv2.HoughLines(edges, 1, np.pi / 180, 118)  # 这里对最后一个参数使用了经验型的值
-    if lines:
-        vertical = [line for line in lines[0] if -np.pi / 8.0 <= line[1] <= np.pi / 8.0]
-        if vertical:
-            vertical = [line for line in vertical if line[1] == min(vertical, key=lambda i: abs(i[1]))[1]]
-            if np.mean(vertical, axis=0)[0] > 240:
-                fun = min
-            else:
-                fun = max
-            vertical = fun(vertical, key=lambda i: i[0])
-
+    # return lines[0]
+    # if lines is not None:
+    #     vertical = [line for line in lines[0] if -np.pi / 8.0 <= line[1] <= np.pi / 8.0]
+    #
+    #     if len(vertical):
+    #         vertical = [line for line in vertical if line[1] == min(vertical, key=lambda i: abs(i[1]))[1]]
+    #         if np.mean(vertical, axis=0)[0] > 240:
+    #             fun = min
+    #         else:
+    #             fun = max
+    #         vertical = fun(vertical, key=lambda i: i[0])
+    #     horizontal = [line for line in lines[0] if 3 * np.pi / 8.0 <= line[1] <= 5 * np.pi / 8.0]
+    #     if len(horizontal):
+    #         horizontal = [line for line in horizontal if line[1] == min(horizontal, key=lambda i: abs(i[1] - np.pi / 2))[1]]
+    #         if np.mean(horizontal, axis=0)[0] > 320:
+    #             fun = min
+    #         else:
+    #             fun = max
+    #             horizontal = fun(horizontal, key=lambda i: i[0])
+    #
+    #     if show:
+    #         if len(vertical) or len(horizontal):
+    #             draw_line(img, (vertical, horizontal))
+    #     return vertical, horizontal
+    #
+    # else:
+    #
+    #     return [], []
+    if lines is not None:
         horizontal = [line for line in lines[0] if 3 * np.pi / 8.0 <= line[1] <= 5 * np.pi / 8.0]
-        if horizontal:
+        if len(horizontal):
             horizontal = [line for line in horizontal if line[1] == min(horizontal, key=lambda i: abs(i[1] - np.pi / 2))[1]]
-            if np.mean(horizontal, axis=0)[0] > 320:
-                fun = min
-            else:
-                fun = max
-                horizontal = fun(horizontal, key=lambda i: i[0])
-
-        if show:
-            if len(vertical) or len(horizontal):
-                draw_line(img, (vertical, horizontal))
-        return vertical, horizontal
-
-    else:
-
-        return [], []
+            horizontal = min(horizontal, key=lambda i: i[0])
+            return horizontal
+    return []
 
 
 def draw_line(img, lines):
@@ -44,7 +52,7 @@ def draw_line(img, lines):
     for x in xrange(height):
         for y in xrange(width):
             result[x][y] = 0
-
+    print lines
     for line in lines:
         if len(line):
             rho = line[0]  # 第一个元素是距离rho
@@ -68,5 +76,7 @@ def draw_line(img, lines):
 if __name__ == "__main__":
     img = cv2.imread("gray.jpg", 0)
     lines = line_sort(img)
+    print lines
+    # draw_line(img, lines)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
