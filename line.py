@@ -6,24 +6,37 @@ height = 480
 width = 640
 
 
-def linesort(img):
+def line_sort(img, show=True):
     img = cv2.GaussianBlur(img, (3, 3), 0)
     edges = cv2.Canny(img, 50, 150, apertureSize=3)
     lines = cv2.HoughLines(edges, 1, np.pi / 180, 118)  # 这里对最后一个参数使用了经验型的值
-    try:
-        lines = lines[0]
-    except TypeError:
-        return []
-    sorted_lines = [lines[0]]
-    for line in lines:
-        for i in xrange(len(sorted_lines)):
-            print line, sorted_lines[i], abs(line[0] - sorted_lines[i][0]) <30, abs(line[1] - sorted_lines[i][1])<0.02
-            if abs(line[0] - sorted_lines[i][0]) < 30 and abs(line[1] - sorted_lines[i][1]) < 0.02:
-                sorted_lines[i] = [(line[0] + sorted_lines[i][0])/2, (line[1] + sorted_lines[i][1])/2]
-                break
-        else:
-            sorted_lines.append(line)
-    return sorted_lines
+    if lines:
+        vertical = [line for line in lines[0] if -np.pi / 8.0 <= line[1] <= np.pi / 8.0]
+        if vertical:
+            vertical = [line for line in vertical if line[1] == min(vertical, key=lambda i: abs(i[1]))[1]]
+            if np.mean(vertical, axis=0)[0] > 240:
+                fun = min
+            else:
+                fun = max
+            vertical = fun(vertical, key=lambda i: i[0])
+
+        horizontal = [line for line in lines[0] if 3 * np.pi / 8.0 <= line[1] <= 5 * np.pi / 8.0]
+        if horizontal:
+            horizontal = [line for line in horizontal if line[1] == min(horizontal, key=lambda i: abs(i[1] - np.pi / 2))[1]]
+            if np.mean(horizontal, axis=0)[0] > 320:
+                fun = min
+            else:
+                fun = max
+                horizontal = fun(horizontal, key=lambda i: i[0])
+
+        if show:
+            if len(vertical) or len(horizontal):
+                draw_line(img, (vertical, horizontal))
+        return vertical, horizontal
+
+    else:
+
+        return [], []
 
 
 def draw_line(img, lines):
@@ -33,30 +46,27 @@ def draw_line(img, lines):
             result[x][y] = 0
 
     for line in lines:
-        rho = line[0]  # 第一个元素是距离rho
-        theta = line[1]  # 第二个元素是角度theta
-        print rho
-        print theta
-        if (theta < (np.pi / 4.)) or (theta > (3. * np.pi / 4.0)):  # 垂直直线
-            # 该直线与第一行的交点
-            pt1 = (int(rho / np.cos(theta)), 0)
-            # 该直线与最后一行的交点
-            pt2 = (int((rho - result.shape[0] * np.sin(theta)) / np.cos(theta)), result.shape[0])
-            # 绘制一条白线
-            cv2.line(result, pt1, pt2, 255)
-        else:  # 水平直线
-            # 该直线与第一列的交点
-            pt1 = (0, int(rho / np.sin(theta)))
-            # 该直线与最后一列的交点
-            pt2 = (result.shape[1], int((rho - result.shape[1] * np.cos(theta)) / np.sin(theta)))
-            # 绘制一条直线
-            cv2.line(result, pt1, pt2, 255, 1)
-    cv2.imshow('Img', img)
-    cv2.imshow('Result', result)
+        if len(line):
+            rho = line[0]  # 第一个元素是距离rho
+            theta = line[1]  # 第二个元素是角度theta
+            if (theta < (np.pi / 4.)) or (theta > (3. * np.pi / 4.0)):  # 垂直直线
+                # 该直线与第一行的交点
+                pt1 = (int(rho / np.cos(theta)), 0)
+                # 该直线与最后一行的交点
+                pt2 = (int((rho - result.shape[0] * np.sin(theta)) / np.cos(theta)), result.shape[0])
+                # 绘制一条白线
+                cv2.line(result, pt1, pt2, 255)
+            else:  # 水平直线
+                # 该直线与第一列的交点
+                pt1 = (0, int(rho / np.sin(theta)))
+                # 该直线与最后一列的交点
+                pt2 = (result.shape[1], int((rho - result.shape[1] * np.cos(theta)) / np.sin(theta)))
+                # 绘制一条直线
+                cv2.line(result, pt1, pt2, 255, 1)
+    cv2.imshow('line', result)
 
 if __name__ == "__main__":
     img = cv2.imread("gray.jpg", 0)
-    lines = linesort(img)
-    draw_line(img, lines)
+    lines = line_sort(img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
