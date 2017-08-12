@@ -49,8 +49,8 @@ def locate(gray, show=True):
                     check_point(x, y, len(classed))
             else:
                 check_point(x, y, flag[x][y])
-    classed = [i for i in classed if len(i) > 10 and min(np.array(i).var(axis=0)) < 100]
-
+    print len(classed), [len(i) for i in classed]
+    classed = [i for i in classed if len(i) > 20 and min(np.array(i).var(axis=0)) < 100]
     if not classed:
         return []
 

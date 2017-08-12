@@ -6,10 +6,11 @@ import numpy as np
 from locate import locate
 
 import socket
+import time
+import os
 
 if socket.gethostname() == 'raspberrypi':
     from lcd import display
-    import os
     files = os.listdir('/dev')
     cam = [f for f in files if f.startswith('video')][0][-1]
     print 'cam:%s' % cam
@@ -47,18 +48,15 @@ def mirrored(gray):
 
 
 def main():
-    cap = cv2.VideoCapture(cam)
-    cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, width)
-    cap.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, height)
-    for i in xrange(20):
-        _, img = cap.read()
-        print img
-    time = 0
+
+    times = 0
     while True:
-        time += 1
-        print "time:%s" % time
+        times += 1
+        print "time:%s" % times
         # try:
-        _, img = cap.read()
+        time.sleep(1.5)
+        os.popen('fswebcam -d /dev/video0 -r 640x480 --no-banner --no-timestamp ./img.jpg > ./info')
+        img = cv2.imread("img.jpg")
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         gray = mirrored(gray)
         leds = locate(gray, show=False)
@@ -78,11 +76,12 @@ def main():
             if len(leds) == 3:
                 leds_ = points[::]
 
-        # print leds_
-        x, y = calculate(leds, leds_)
+            print leds_
+            x, y = calculate(leds, leds_)
 
-        display('x: % .1f\ny: % .1f' % (x, y))
-        print 'display sucess'
+            display('x: % .1f\ny: % .1f' % (x, y))
+            print 'display sucess'
+
         # except Exception:
         #     pass
 
