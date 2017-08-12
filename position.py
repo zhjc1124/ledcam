@@ -13,7 +13,6 @@ if socket.gethostname() == 'raspberrypi':
     files = os.listdir('/dev')
     cam = [f for f in files if f.startswith('video')][0][-1]
 
-    cam = 0
 else:
     def display(x):
         print x
