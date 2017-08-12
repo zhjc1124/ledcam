@@ -19,7 +19,7 @@ gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 gray = mirrored(gray)
 
 cv2.imwrite("gray.jpg", gray)
-
+cv2.imshow('gray', gray)
 for x in xrange(height):
     for y in xrange(width):
         if gray[x][y] > 230:
@@ -28,5 +28,6 @@ for x in xrange(height):
             gray[x][y] = 0
 
 cv2.imshow('test', gray)
+
 cv2.waitKey(0)
 cv2.destroyAllWindows()

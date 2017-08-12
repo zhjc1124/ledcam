@@ -49,7 +49,7 @@ def main():
     while True:
         times += 1
         print "time:%s" % times
-        # try:
+        # try:print leds
         time.sleep(2)
         os.popen('fswebcam -d /dev/video0 -r 640x480 --no-banner --no-timestamp ./img.jpg > ./info')
         img = cv2.imread("img.jpg")
