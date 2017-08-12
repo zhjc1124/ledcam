@@ -3,7 +3,7 @@
 import cv2
 import numpy as np
 # 去掉废的10张
-cap = cv2.VideoCapture(2)
+cap = cv2.VideoCapture(0)
 height = 480
 width = 640
 

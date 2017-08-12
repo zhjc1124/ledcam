@@ -17,7 +17,7 @@ if socket.gethostname() == 'raspberrypi':
 else:
     def display(x):
         print x
-    cam = 1
+    cam = 0
 points = ((0, 20), (0, 0), (0, -20))
 
 height = 480
