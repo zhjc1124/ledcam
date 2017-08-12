@@ -19,7 +19,7 @@ def locate(gray, show=True):
                 # print (x_, y_), (x_ + m, y_ + n), gray[x_][y_], gray[x_ + m][y + n]
                 if flag[x_ + m][y_ + n]:
                     pass
-                elif abs(int(gray[x_][y_]) - int(gray[x_ + m][y_ + n])) < 10 and gray[x_ + m][y_ + n] > 240:
+                elif abs(int(gray[x_][y_]) - int(gray[x_ + m][y_ + n])) < 5 and gray[x_ + m][y_ + n] > 230:
                     flag[x_ + m][y_ + n] = value
                     classed[int(value) - 1].append((x_ + m, y_ + n))
                     check_point(x_ + m, y_ + n, value)
