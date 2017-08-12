@@ -19,7 +19,7 @@ points = ((0, 20), (0, 0), (0, -20))
 
 height = 480
 width = 640
-d = 45.5 * 2/640
+d = 46.5 * 2/640
 
 
 def calculate(leds, leds_):
@@ -32,6 +32,12 @@ def calculate(leds, leds_):
         y = led_[1] + delta_y
         return x, y
     x, y = np.mean([cal(led, led_) for led, led_ in zip(leds, leds_)], axis=0)
+    if x < -32:
+        x+= -4
+    # elif x < -26:
+    #     x += -2
+    elif x < -6:
+        x += -1
     return x, y
 
 
@@ -51,7 +57,7 @@ def main():
         print "time:%s" % times
         try:
             time.sleep(2)
-            os.popen('fswebcam -r 640x480 --no-banner --no-timestamp ./img.jpg -F 10')
+            os.popen('fswebcam -d /dev/video2 -r 640x480 --no-banner --no-timestamp ./img.jpg -F 10')
             img = cv2.imread("img.jpg")
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             gray = mirrored(gray)
@@ -76,9 +82,17 @@ def main():
 
                 print leds_
                 x, y = calculate(leds, leds_)
-
-                display('x: % .1f\ny: % .1f' % (x, y))
-                print 'display sucess'
+                info = 'x: % .1f, y: % .1f\n' % (x, y)
+                if x > 0:
+                    info += 'Right'
+                else:
+                    info += ' Left'
+                if y > 0:
+                    info += '    Up'
+                else:
+                    info += ', Down'
+                display(info)
+                print 'display success'
 
         except Exception:
             pass

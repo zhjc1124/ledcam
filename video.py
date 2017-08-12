@@ -2,7 +2,8 @@
 
 import cv2
 import numpy as np
-# 去掉废的10张
+# 去掉废的10张python ~/ledcam/position.py & > ~/log.txt
+
 cap = cv2.VideoCapture(2)
 height = 480
 width = 640

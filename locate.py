@@ -49,7 +49,7 @@ def locate(gray, show=True):
             else:
                 check_point(x, y, flag[x][y])
     print len(classed), [len(i) for i in classed]
-    classed = [i for i in classed if len(i) > 20 and min(np.array(i).var(axis=0)) < 100]
+    classed = [i for i in classed if len(i) > 10 and min(np.array(i).var(axis=0)) < 100]
     if not classed:
         return []
 
@@ -60,9 +60,9 @@ def locate(gray, show=True):
             for point in led:
                 x, y = point[0], point[1]
                 result[x][y] = 255
-        cv2.imshow("result", result)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+        # cv2.imshow("result", result)
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
     return leds
 
 

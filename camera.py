@@ -13,7 +13,7 @@ def mirrored(gray):
     return mirror
 
 
-os.popen('fswebcam -d /dev/video0 -r 640x480 --no-banner --no-timestamp ./img.jpg > ./info')
+os.popen('fswebcam -d /dev/video2 -r 640x480 --no-banner --no-timestamp ./img.jpg > ./info')
 img = cv2.imread("img.jpg")
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 gray = mirrored(gray)
