@@ -56,7 +56,7 @@ def main():
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         gray = mirrored(gray)
         leds = lc(gray)
-        print leds
+
         if len(leds):
             if len(leds) == 1:
                 led = leds[0]
