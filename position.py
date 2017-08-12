@@ -9,10 +9,11 @@ import socket
 
 if socket.gethostname() == 'raspberrypi':
     from lcd import display
+    cam = 0
 else:
     def display(x):
         print x
-
+    cam = 1
 points = ((0, 20), (0, 0), (0, -20))
 
 height = 480
@@ -42,7 +43,7 @@ def mirrored(gray):
 
 
 def main():
-    cap = cv2.VideoCapture(2)
+    cap = cv2.VideoCapture(cam)
     for i in xrange(20):
         _, img = cap.read()
     while True:
