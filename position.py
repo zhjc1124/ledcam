@@ -10,6 +10,7 @@ import time
 import os
 
 if socket.gethostname() == 'raspberrypi':
+    from lcd import display
     cam = 0
     print 'cam:%s' % cam
 
@@ -52,7 +53,7 @@ def main():
         times += 1
         print "time:%s" % times
         # try:
-        time.sleep(1.5)
+        time.sleep(1)
         os.popen('fswebcam -d /dev/video0 -r 640x480 --no-banner --no-timestamp ./img.jpg > ./info')
         img = cv2.imread("img.jpg")
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
