@@ -33,7 +33,7 @@ def calculate(leds, leds_):
         return x, y
     x, y = np.mean([cal(led, led_) for led, led_ in zip(leds, leds_)], axis=0)
     if x < -32:
-        x+= -4
+        x+= -3
     # elif x < -26:
     #     x += -2
     elif x < -6:
