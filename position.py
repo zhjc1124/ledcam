@@ -46,7 +46,10 @@ def main():
     cap = cv2.VideoCapture(cam)
     for i in xrange(20):
         _, img = cap.read()
+    time = 0
     while True:
+        time += 1
+        print "time:%s" % time
         try:
             _, img = cap.read()
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -73,6 +76,7 @@ def main():
             x, y = calculate(leds, leds_)
 
             display('x: % .1f\ny: % .1f' % (x, y))
+            print 'display sucess'
         except Exception:
             pass
 
