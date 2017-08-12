@@ -62,6 +62,7 @@ def main():
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             gray = mirrored(gray)
             cv2.imwrite("gray.jpg", gray)
+
             leds = lc(gray)
 
             if len(leds):
