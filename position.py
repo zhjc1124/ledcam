@@ -75,7 +75,7 @@ def main():
                         leds_ = points[2:]
 
                 if len(leds) == 2:
-                    if abs(np.ptp(leds, axis=0)[1]) > 230:
+                    if abs(np.ptp(leds, axis=0)[0]) > 230:
                         leds_ = points[::2]
                     elif sum([led[0]for led in leds]) > height:
                         leds_ = points[:2]
