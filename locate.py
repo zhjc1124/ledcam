@@ -79,7 +79,7 @@ def locate_(gray):
             for x in xrange(h_border, height):
                 for y in xrange(width):
                     gray[x][y] = 0
-    cv2.imshow("cc", gray)
+    # cv2.imshow("cc", gray)
     circles = cv2.HoughCircles(gray, cv2.cv.CV_HOUGH_GRADIENT, 1, 100, param1=100, param2=15, minRadius=0, maxRadius=20)
     leds = [i[1::-1] for i in circles[0]]
     return leds
