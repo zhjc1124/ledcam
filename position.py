@@ -3,7 +3,7 @@
 
 import cv2
 import numpy as np
-from locate import locate_ as lc
+from locate import locate as lc
 
 import socket
 import time
@@ -75,11 +75,8 @@ def main():
                         leds_ = points[2:]
 
                 if len(leds) == 2:
-                    if abs(np.ptp(leds, axis=0)[0]) > 230 and abs(np.ptp(leds, axis=0)[1]) < 50:
+                    if abs(np.ptp(leds, axis=0)[0]) > 230:
                         leds_ = points[::2]
-                    elif abs(np.ptp(leds, axis=0)[1]) >= 50:
-                        leds = [leds[0]]
-                        leds_ = [points[2]]
                     elif sum([led[0]for led in leds]) > height:
                         leds_ = points[:2]
                     else:
