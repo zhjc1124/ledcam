@@ -57,7 +57,7 @@ def main():
         print "time:%s" % times
         try:
             time.sleep(2)
-            os.popen('fswebcam  -r 640x480 --no-banner --no-timestamp ./img.jpg -F 10')
+            os.popen('fswebcam  -r 640x480 --no-banner --no-timestamp ./img.jpg -F 8')
             img = cv2.imread("img.jpg")
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             gray = mirrored(gray)
@@ -74,7 +74,9 @@ def main():
                         leds_ = points[2:]
 
                 if len(leds) == 2:
-                    if sum([led[0]for led in leds]) > height:
+                    if abs(np.ptp(leds, axis=0)[1]) > 230:
+                        leds_ = points[::2]
+                    elif sum([led[0]for led in leds]) > height:
                         leds_ = points[:2]
                     else:
                         leds_ = points[1:]
