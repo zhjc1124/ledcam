@@ -49,39 +49,39 @@ def main():
     while True:
         times += 1
         print "time:%s" % times
-        # try:print leds
-        time.sleep(2)
-        os.popen('fswebcam -d /dev/video2 -r 640x480 --no-banner --no-timestamp ./img.jpg -F 10')
-        img = cv2.imread("img.jpg")
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        gray = mirrored(gray)
-        cv2.imwrite("gray.jpg", gray)
-        leds = lc(gray)
+        try:
+            time.sleep(2)
+            os.popen('fswebcam -d /dev/video2 -r 640x480 --no-banner --no-timestamp ./img.jpg -F 10')
+            img = cv2.imread("img.jpg")
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            gray = mirrored(gray)
+            cv2.imwrite("gray.jpg", gray)
+            leds = lc(gray)
 
-        if len(leds):
-            if len(leds) == 1:
-                led = leds[0]
-                if led[0] > height/2.0:
-                    leds_ = points[:1]
-                else:
-                    leds_ = points[2:]
+            if len(leds):
+                if len(leds) == 1:
+                    led = leds[0]
+                    if led[0] > height/2.0:
+                        leds_ = points[:1]
+                    else:
+                        leds_ = points[2:]
 
-            if len(leds) == 2:
-                if sum([led[0]for led in leds]) > height:
-                    leds_ = points[:2]
-                else:
-                    leds_ = points[1:]
-            if len(leds) == 3:
-                leds_ = points[::]
+                if len(leds) == 2:
+                    if sum([led[0]for led in leds]) > height:
+                        leds_ = points[:2]
+                    else:
+                        leds_ = points[1:]
+                if len(leds) == 3:
+                    leds_ = points[::]
 
-            print leds_
-            x, y = calculate(leds, leds_)
+                print leds_
+                x, y = calculate(leds, leds_)
 
-            display('x: % .1f\ny: % .1f' % (x, y))
-            print 'display sucess'
+                display('x: % .1f\ny: % .1f' % (x, y))
+                print 'display sucess'
 
-        # except Exception:
-        #     pass
+        except Exception:
+            pass
 
 
 if __name__ == '__main__':
